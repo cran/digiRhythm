@@ -1,0 +1,16 @@
+utils::globalVariables(
+  c("datetime",
+    'average',
+    'hp',
+    'where',
+    'na.omit',
+    'Date',
+    'Diurnality',
+    'fibsearch',
+    'frequency_hz',
+    'period_seconds',
+    'status_harmonic',
+    'power',
+    'period_hours',
+    'new_h')
+  )
