@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Hassan Roland Nasser and Marie Schneider" />
+
+<meta name="date" content="2022-11-10" />
+
+<title>Further options of visualization in DigiRhythm</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Further options of visualization in
+DigiRhythm</h1>
+<h4 class="author">Hassan Roland Nasser and Marie Schneider</h4>
+<h4 class="date">2022-11-10</h4>
+
+
+
+<p>DigiRhythm additionally contains some deeper visualisation
+possibilities. - the function daily_activity_wrap_plot could be used to
+visualise the activity over time per day - the function plot_quadro is a
+possibility to combine different forms of visualizing activity
+(actogram, average activity, DFC and HP and daily activity) - the
+function plot_actogram_avg_activity will show what heppens, if Hassan
+wrote the code</p>
+<p>First, we start by loading a dataset, removing the outliers, resample
+it to 15 min and choose the activity to study.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(digiRhythm)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> digiRhythm<span class="sc">::</span>df691b_1</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">remove_activity_outliers</span>(data)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">resample_dgm</span>(data, <span class="dv">15</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>activity <span class="ot">=</span> <span class="fu">names</span>(data)[<span class="dv">2</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              datetime Motion.Index Steps</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2020-08-25 00:00:00           20     8</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2020-08-25 00:15:00           52    46</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2020-08-25 00:30:00           61    39</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2020-08-25 00:45:00           29    18</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2020-08-25 01:00:00           83    26</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2020-08-25 01:15:00           50    23</span></span></code></pre></div>
+<div id="daily-activity-wrap" class="section level1">
+<h1>Daily Activity Wrap</h1>
+<p>Now we proceed to plot the daily activity. User can decide to plot
+the activity during the time of one day. Or to plot a huge plot
+including a number of day-plots. User has to define the activity to
+plot. Additionally, user has to define the activity_alias, similar to
+the actogram. Start and end date have to be defined by the user, using
+the format “%Y-%m-%d”. Afterwards, sampling_rate of the data has to be
+defined. The sample size has to be bigger or equal to the sample size of
+the dataset. With “n_cols”, the user is able to decide how many
+graphs/days should be shown in a row of the plot. User has the
+possibility to save the plot directly, using this function.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>activity_alias <span class="ot">&lt;-</span> <span class="st">&#39;Motion Index&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="st">&quot;2020-08-25&quot;</span> <span class="co">#year-month-day</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>end <span class="ot">&lt;-</span> <span class="st">&quot;2020-10-11&quot;</span> <span class="co">#year-month-day</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sampling_rate <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ncols <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co">#number of columns</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#save &lt;- &#39;sample_results/daily_wrap_plot&#39; #if Null, doesn&#39;t save the image</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>my_daily_wrap_plot <span class="ot">&lt;-</span> <span class="fu">daily_activity_wrap_plot</span>(data, activity, activity_alias, start, end, sampling_rate, ncols, <span class="at">save =</span> Null)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="plot-combination" class="section level1">
+<h1>Plot combination</h1>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

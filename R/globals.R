@@ -12,5 +12,8 @@ utils::globalVariables(
     'status_harmonic',
     'power',
     'period_hours',
-    'new_h')
+    'new_h',
+    'to',
+    'tz',
+    'df')
   )

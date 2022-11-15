@@ -2,12 +2,16 @@
 #' computing the DFC and HP. A plot visualizing the Harmonic Frequencies presence
 #' in the spectrum is possible. The function is inspired from the Lomb library in
 #' a great part, with modifications to fit the requirements of harmonic powers and
-#' computation of the DFC
+#' computation of the DFC. This function is inspired by the lsp function from the
+#' lomb package and adapted to add different colors for harmonic and non harmonic
+#' frequencies in the signal. For more information about lomb::lsp, please refer
+#' to: https://cran.r-project.org/web/packages/lomb/
 #'
 #' @param data a digiRhythm friendly dataframe of only two columns
 #' @param sampling the sampling period in minutes. default = 15 min.
 #' @param alpha the statistical significance for the false alarm
 #' @param plot if TRUE, the LSP will be plotted
+#' @param extra_info_plot if True, extra information will be shown on the plot
 #'
 #' @return a list that contains a dataframe (detailed below), the significance
 #' level and alpha (for the record). The dataframe contains the power the frequency,
@@ -27,7 +31,7 @@
 #' lomb_scargle_periodogram(data, alpha = sig, plot = TRUE)
 
 
-lomb_scargle_periodogram <- function (data, alpha = 0.01, sampling = 15, plot = TRUE) {
+lomb_scargle_periodogram <- function (data, alpha = 0.01, sampling = 15, plot = TRUE, extra_info_plot = TRUE) {
 
   if (!is_dgm_friendly(data, verbose = TRUE)) {
     stop('The data is not digiRhythm friendly. type ?is_dgm_friendly in your console for more information')
@@ -150,8 +154,8 @@ lomb_scargle_periodogram <- function (data, alpha = 0.01, sampling = 15, plot = 
   })
 
   l <- unlist(l)
-  lsp_data$status_harmonic <- 'FALSE'
-  lsp_data$status_harmonic[l] <- 'TRUE'
+  lsp_data$status_harmonic <- 'Non-Harmonic'
+  lsp_data$status_harmonic[l] <- 'Harmonic'
 
 
   output <- list(lsp_data = lsp_data, sig.level = level, alpha = alpha)
@@ -159,8 +163,7 @@ lomb_scargle_periodogram <- function (data, alpha = 0.01, sampling = 15, plot = 
   len <- 24*60/sampling
   lsp_data <- lsp_data[1:len,]
   if(plot){
-    hdata <- lsp_data %>% filter(status_harmonic ==TRUE) %>%
-      # filter(power > 0.01) %>%
+    hdata <- lsp_data %>% filter(status_harmonic == 'Harmonic') %>%
       select(frequency_hz, power, period_hours) %>%
       mutate(new_h = paste(round(period_hours, digits = 1), 'h'))
 
@@ -169,34 +172,46 @@ lomb_scargle_periodogram <- function (data, alpha = 0.01, sampling = 15, plot = 
       ylim(c(0, 1.2*max(lsp_data$power))) +
       geom_col(aes(fill = status_harmonic)) +
       geom_hline(yintercept = level, linetype = "dotted") +
-      annotate("text",
-               x = max(lsp_data$frequency_hz),
-               y = level*1.05,
-               label = paste("P<", alpha), size = 6, vjust = 0) +
-      labs(fill = 'Is harmonic?', y = 'Power', x = 'Frequency (Hz)') +
-      theme(
+      # annotate("text",
+      #          x = max(lsp_data$frequency_hz),
+      #          y = level*1.05,
+      #          label = paste("P<", alpha), size = 6, vjust = 0) +
+      labs(fill = 'Status', y = 'Power', x = 'Frequency (Hz)')
+    if(extra_info_plot){
+      p <- p + theme(
         panel.background = element_rect(fill = "white"),
+        axis.text = element_text(color = "#000000"),
+        text = element_text(size = 15),
         axis.line = element_line(size = 0.5),
         legend.key = element_rect(fill = "white"),
         legend.key.width = unit(0.5, "cm"),
         legend.justification ="right",
-        legend.key.size = unit(7, "pt"),
         legend.position = c(1,0.89),
         plot.margin = margin(t = 50)) +
-      geom_text(data = hdata, mapping = aes(
-        x = frequency_hz,
-        y = power,
-        label = new_h,
-        angle = 90,
-        hjust = -0.4)) +
-      ggtitle(paste('LSP for ', datanames[2],from_to))
-
+        geom_text(data = hdata, mapping = aes(
+          x = frequency_hz,
+          y = power,
+          label = new_h,
+          angle = 90,
+          hjust = -0.4)) + ggtitle(paste('LSP for ', datanames[2],from_to))
+    } else {
+      p <- p + theme(
+        panel.background = element_rect(fill = "white"),
+        axis.text = element_text(color = "#000000"),
+        text = element_text(size = 15),
+        axis.line = element_line(size = 0.5),
+        legend.position = 'none',
+        plot.margin = margin(t = 50)) +
+        geom_text(data = hdata, mapping = aes(
+          x = frequency_hz,
+          y = power,
+          label = new_h,
+          angle = 90,
+          hjust = -0.4))
+    }
 
     print(p)
-  }
+    }
 
   return(output)
 }
-
-
-

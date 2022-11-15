@@ -17,7 +17,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom stats time
 #' @import ggplot2
-#' @importFrom lubridate date
+#' @importFrom lubridate date tz
 #' @import dplyr
 #'
 #' @export
@@ -71,7 +71,8 @@ daily_average_activity <- function(
   s <- sum_of_activity_over_all_days_per_sample
 
   s$datetime <- paste(data_to_plot$date[1], s$time)
-  s$datetime <- as.POSIXct(s$datetime, format("%Y-%m-%d %H:%M"))
+  s$datetime <- as.POSIXct(s$datetime, format("%Y-%m-%d %H:%M"), tz = tz(df$datetime))
+
   s <- s %>% select(datetime, average)
 
   avg_act_plot <- ggplot(s,
@@ -86,9 +87,8 @@ daily_average_activity <- function(
     theme_classic() +
     theme(plot.title = element_text(hjust = 0.5)) +
     theme(
-      axis.text.x = element_text(color="#000000"),
-      axis.text.y = element_text(color="#000000"),
-      text=element_text(size = 12),
+      axis.text = element_text(color = 'black'),
+      text=element_text(size = 15),
       panel.background = element_rect(fill = "white"),
       axis.line = element_line(size = 0.5))
 

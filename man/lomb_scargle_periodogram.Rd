@@ -6,9 +6,18 @@
 computing the DFC and HP. A plot visualizing the Harmonic Frequencies presence
 in the spectrum is possible. The function is inspired from the Lomb library in
 a great part, with modifications to fit the requirements of harmonic powers and
-computation of the DFC}
+computation of the DFC. This function is inspired by the lsp function from the
+lomb package and adapted to add different colors for harmonic and non harmonic
+frequencies in the signal. For more information about lomb::lsp, please refer
+to: https://cran.r-project.org/web/packages/lomb/}
 \usage{
-lomb_scargle_periodogram(data, alpha = 0.01, sampling = 15, plot = TRUE)
+lomb_scargle_periodogram(
+  data,
+  alpha = 0.01,
+  sampling = 15,
+  plot = TRUE,
+  extra_info_plot = TRUE
+)
 }
 \arguments{
 \item{data}{a digiRhythm friendly dataframe of only two columns}
@@ -18,6 +27,8 @@ lomb_scargle_periodogram(data, alpha = 0.01, sampling = 15, plot = TRUE)
 \item{sampling}{the sampling period in minutes. default = 15 min.}
 
 \item{plot}{if TRUE, the LSP will be plotted}
+
+\item{extra_info_plot}{if True, extra information will be shown on the plot}
 }
 \value{
 a list that contains a dataframe (detailed below), the significance
@@ -31,7 +42,10 @@ Computes the Lomb Scargle Periodogram and returns the information needed for
 computing the DFC and HP. A plot visualizing the Harmonic Frequencies presence
 in the spectrum is possible. The function is inspired from the Lomb library in
 a great part, with modifications to fit the requirements of harmonic powers and
-computation of the DFC
+computation of the DFC. This function is inspired by the lsp function from the
+lomb package and adapted to add different colors for harmonic and non harmonic
+frequencies in the signal. For more information about lomb::lsp, please refer
+to: https://cran.r-project.org/web/packages/lomb/
 }
 \examples{
 data("df516b_2", package = "digiRhythm")

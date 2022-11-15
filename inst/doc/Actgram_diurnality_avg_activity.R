@@ -19,7 +19,7 @@ activity_alias <- 'Motion Index'
 #save <- 'sample_results/actogram' #if NULL, don't save the image
 my_actogram <- actogram(data, activity, activity_alias , start, end, save = NULL)
 
-## ----activity-----------------------------------------------------------------
+## ----daily_average_activity---------------------------------------------------
 start <- "2020-08-25" #year-month-day
 end <- "2020-10-11" #year-month-day -->
 activity_alias <- 'Motion Index'
@@ -29,5 +29,5 @@ my_daa <- daily_average_activity(data, activity, activity_alias , start, end, sa
 ## ----diurnality---------------------------------------------------------------
 day_time = c("06:30:00", "16:30:00")
 night_time = c("18:00:00", "T05:00:00")
-my_di <- diurnality(data, activity,day_time, night_time)
+my_di <- diurnality(data, activity, day_time, night_time, save = NULL)
 
