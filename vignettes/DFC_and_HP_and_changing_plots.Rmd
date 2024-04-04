@@ -1,6 +1,6 @@
 ---
 title: "Computing the DFC/HP and manipulating the functions returned objects"
-author: "Hassan Roland Nasser and Marie Schneider"
+author: "Hassan-Roland Nasser and Marie Schneider"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >

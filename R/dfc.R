@@ -79,22 +79,26 @@ dfc <- function(
 
   df$date <- date(df$datetime)
 
-  days <- seq(from = df$date[1],
-              to = last(df$date),
-              by = 1)
+  days <- seq(df$date[1],
+              last(df$date),
+              1)
 
   dfc <- NULL
   spec <- NULL
+  from <- NULL
   dfc <- data.frame(from = character(),
                     to = character(),
                     dfc = numeric(),
                     hp = numeric()) #The data frame for DFC
 
-  spec <- data.frame(fromtodate = character(),
+  spec <- data.frame(from = character(),
+                     to = character(),
                      sample = numeric(),
                      freq = numeric(),
                      power = numeric(),
-                     pvalue = numeric()) #The data frame for SPEC
+                     frequency = numeric(),
+                     pvalue = numeric(),
+                     harmonic_status = character()) #The data frame for SPEC
 
   n_days_scanned <- length(days) - 6
 
@@ -156,12 +160,14 @@ dfc <- function(
 
 
 
-    spec <- rbind(spec, data.frame(
-      rep(paste0(format(days[i]), "_to_", format(days[i + 6])), len),
-      1:len,
-      (1:len)/7,
-      lsp_data$power,
-      lsp_data$p_values))
+    spec <- rbind(spec, data.frame(from = rep(days[i], len),
+                                   to = rep(days[i + 6], len),
+                                   sample = 1:len,
+                                   freq = (1:len)/7,
+                                   power = lsp_data$power,
+                                   frequency_hz = lsp_data$frequency_hz,
+                                   p_values = lsp_data$p_values,
+                                   harmonic_status = lsp_data$status_harmonic))
 
     dfc[i,] <-  c(format(days[i]), format(days[i+6]), DFC, HP)
 
@@ -176,7 +182,7 @@ dfc <- function(
   dfc$hp <- as.numeric(dfc$hp)
 
   if(plot_harmonic_part){
-    dfc_plot <- ggplot(dfc, aes(x = to)) +
+    dfc_plot <- ggplot(dfc, aes(x = from)) +
       geom_line(aes(y = dfc, linetype = "Degree of functional coupling (%)")) +
       geom_line(aes(y = hp, linetype = "Harmonic part")) +
       xlab("") +
@@ -195,7 +201,7 @@ dfc <- function(
         legend.position = c(0.7,0.75),
         plot.margin = margin(0, 0.5, 0, 0, "cm"))
   } else{
-    dfc_plot <- ggplot(dfc, aes(x = to)) +
+    dfc_plot <- ggplot(dfc, aes(x = from)) +
       geom_line(aes(y = dfc, linetype = "Degree of functional coupling (%)")) +
       xlab("") +
       ylab("") +
