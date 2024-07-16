@@ -11,6 +11,7 @@ dfc(
   activity,
   sampling = 15,
   sig = 0.05,
+  rolling_window = 7,
   plot = TRUE,
   plot_harmonic_part = TRUE,
   verbose = TRUE,
@@ -28,6 +29,8 @@ the Lomb Scargle Periodogram is computed.}
 \item{sig}{The significance level that should be used to determine the
 significant frequency component.}
 
+\item{rolling_window}{The rolling window used to compute the LSP. Default is 7 days.}
+
 \item{plot}{if TRUE, the DFC/HP plot will be shown.}
 
 \item{plot_harmonic_part}{if TRUE, it shows the harmonic part in the DFC plot}
@@ -41,9 +44,9 @@ A list containing 2 dataframe. DFC dataframe that contain the
 results of a DFC computation and SPEC Dataframe that contains the result of
 spectrum computation.
 The DFC contains 3 columns:
-** The date
-** The DFC computed over 7 days (but we only extract the first 24 hours = 96 values)
-** The Harmonic Part
+** The date in format YYYY-MM-DD.
+** The DFC computed using a @rolling_window days.
+** The Harmonic Part (ratio).
 Data are supposed to sampled with a specific smpling rate. It should be the same sampling rate
 as in the given argument @sampling
 Missing days are not permitted. If you have data with half day, it should be
@@ -69,10 +72,16 @@ DFC <- SSH / SUMSIG
 HP <- SSH / SUMALL
 }
 \examples{
-data("df516b_2", package = "digiRhythm")
-df <- df516b_2[1:672, c(1,2)]
-df <- remove_activity_outliers(df)
-df_act_info(df)
-activity = names(df)[2]
-my_dfc <- dfc(df, activity, sampling = 15)
+sampling_period <- 15 * 60  # seconds
+two_weeks <- 2 * 7 * 24 * 60 * 60  # seconds
+amplitude_24h <- 5
+amplitude_12h <- 3
+noise_sd <- 2
+time_seq <- seq(0, two_weeks, by = sampling_period)
+time_posix <- as.POSIXct(time_seq, origin = "1970-01-01", tz = "UTC")
+sine_24h <- amplitude_24h * sin(2 * pi * time_seq / (24 * 60 * 60))
+sine_12h <- amplitude_12h * sin(2 * pi * time_seq / (12 * 60 * 60))
+noise <- rnorm(length(time_seq), mean = 0, sd = noise_sd)
+data <- sine_24h + sine_12h + noise
+df <- data.frame(time = time_posix, value = data)
 }

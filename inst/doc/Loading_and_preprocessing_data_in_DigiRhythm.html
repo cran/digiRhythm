@@ -10,9 +10,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<meta name="author" content="Hassan-Roland Nasser and Marie Schneider" />
+<meta name="author" content="Hassan Roland Nasser and Marie Schneider" />
 
-<meta name="date" content="2024-04-04" />
+<meta name="date" content="2024-07-16" />
 
 <title>Loading and preprocessing data in DigiRhythm</title>
 
@@ -51,7 +51,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -340,8 +340,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Loading and preprocessing data in
 DigiRhythm</h1>
-<h4 class="author">Hassan-Roland Nasser and Marie Schneider</h4>
-<h4 class="date">2024-04-04</h4>
+<h4 class="author">Hassan Roland Nasser and Marie Schneider</h4>
+<h4 class="date">2024-07-16</h4>
 
 
 
@@ -366,9 +366,9 @@ why.</li>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(digiRhythm)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#A sample dataset could be found here</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&#39;https://raw.githubusercontent.com/nasserdr/digiRhythm_sample_datasets/main/516b_2.csv&#39;</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>destination <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&#39;516b_2.csv&#39;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># A sample dataset could be found here</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/nasserdr/digiRhythm_sample_datasets/main/516b_2.csv&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>destination <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;516b_2.csv&quot;</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">download.file</span>(url, <span class="at">destfile =</span> destination)</span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># system(paste(&quot;head -n 15&quot;,  filename)) #Run it only on linux</span></span>
@@ -378,7 +378,7 @@ why.</li>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># First Record:,,30.04.2020,11:54:20,,,</span></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Last Record:,,15.06.2020,11:06:55,,,</span></span>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># File Time Zone:,,W. Europe Standard Time,,,,</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Date,Time,Motion Index,Standing,Lying,Steps,Lying Bouts</span></span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co"># 30.04.2020,11:54:20,0,0:00.0,0:40.0,0,0</span></span>
 <span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co"># 30.04.2020,11:55:00,0,0:00.0,1:00.0,0,0</span></span>
@@ -412,33 +412,34 @@ the date and time formats, the separator, the original and target time
 zones, the sampling rate and we want to remove all days that contains
 less than 80% of data.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">import_raw_activity_data</span>(destination,</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                                   <span class="at">skipLines =</span> <span class="dv">7</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                                   <span class="at">act.cols.names =</span> <span class="fu">c</span>(<span class="st">&quot;Date&quot;</span>, <span class="st">&quot;Time&quot;</span>, <span class="st">&quot;Motion Index&quot;</span>, <span class="st">&#39;Steps&#39;</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                                   <span class="at">date_format =</span> <span class="st">&quot;%d.%m.%Y&quot;</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                                   <span class="at">time_format =</span> <span class="st">&quot;%H:%M:%S&quot;</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>                                   <span class="at">sep =</span> <span class="st">&#39;,&#39;</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>                                   <span class="at">original_tz =</span> <span class="st">&#39;CET&#39;</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                                   <span class="at">target_tz =</span> <span class="st">&#39;CET&#39;</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                                   <span class="at">sampling =</span> <span class="dv">15</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>                                   <span class="at">trim_first_day =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>                                   <span class="at">trim_middle_days =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>                                   <span class="at">trim_last_day =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>                                   <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Reading the CSV file /tmp/RtmpZu9Gcq/516b_2.csv&quot;</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; Removing the following columns because they are not numeric</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot;First data points ... &quot;</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;              datetime Motion.Index Steps</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; 1 2020-04-30 11:54:20            0     0</span></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; 2 2020-04-30 11:55:00            0     0</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; 3 2020-04-30 11:56:00            0     0</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Last data point ... &quot;</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt;              datetime Motion.Index Steps</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; 1 2020-06-15 11:06:00            0     0</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt; 2 2020-06-15 11:05:00            2     0</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; 3 2020-06-15 11:04:00            0     0</span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Minimum Required number of samples per day 76&quot;</span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Returning a data frame with datetime colum and 2 variable colums&quot;</span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Total number of samples is 4320 - Total number of days is 45&quot;</span></span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">skipLines =</span> <span class="dv">7</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">act.cols.names =</span> <span class="fu">c</span>(<span class="st">&quot;Date&quot;</span>, <span class="st">&quot;Time&quot;</span>, <span class="st">&quot;Motion Index&quot;</span>, <span class="st">&quot;Steps&quot;</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">date_format =</span> <span class="st">&quot;%d.%m.%Y&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">time_format =</span> <span class="st">&quot;%H:%M:%S&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">original_tz =</span> <span class="st">&quot;CET&quot;</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="at">target_tz =</span> <span class="st">&quot;CET&quot;</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="at">sampling =</span> <span class="dv">15</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="at">trim_first_day =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="at">trim_middle_days =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="at">trim_last_day =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>)</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Reading the CSV file /tmp/RtmpywGbXc/516b_2.csv&quot;</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; Removing the following columns because they are not numeric</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; [1] &quot;First data points ... &quot;</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;              datetime Motion.Index Steps</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; 1 2020-04-30 11:54:20            0     0</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; 2 2020-04-30 11:55:00            0     0</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; 3 2020-04-30 11:56:00            0     0</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Last data point ... &quot;</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt;              datetime Motion.Index Steps</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt; 1 2020-06-15 11:06:00            0     0</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; 2 2020-06-15 11:05:00            2     0</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; 3 2020-06-15 11:04:00            0     0</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Minimum Required number of samples per day 76&quot;</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Returning a data frame with datetime colum and 2 variable colums&quot;</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Total number of samples is 4320 - Total number of days is 45&quot;</span></span></code></pre></div>
 <p>As Shown, the argument verbose = TRUE outputs some useful information
 about the data loading process. We particularly mention the following
 output: Minimum Required number of samples per day 76. The 76 is
@@ -461,7 +462,7 @@ TRUE, it will output details about why or why not the data is not
 considered digiRhythm friendly.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">is_dgm_friendly</span>(data, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; v Correct time format: First column has a POSIXct Format </span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; v Number of days: Bigger or equal to 7 </span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; v Number of days: Bigger or equal to 2 </span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; v Correct numeric format - Column 2 ==&gt; Motion.Index </span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; v Correct numeric format - Column 3 ==&gt; Steps </span></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; The data is digiRhythm friendly</span></span>
