@@ -12,7 +12,7 @@
 
 <meta name="author" content="Hassan Roland Nasser and Marie Schneider" />
 
-<meta name="date" content="2024-07-16" />
+<meta name="date" content="2024-07-25" />
 
 <title>Loading and preprocessing data in DigiRhythm</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Loading and preprocessing data in
 DigiRhythm</h1>
 <h4 class="author">Hassan Roland Nasser and Marie Schneider</h4>
-<h4 class="date">2024-07-16</h4>
+<h4 class="date">2024-07-25</h4>
 
 
 
@@ -425,7 +425,7 @@ less than 80% of data.</p>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="at">trim_last_day =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
 <span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>)</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Reading the CSV file /tmp/RtmpywGbXc/516b_2.csv&quot;</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Reading the CSV file /tmp/RtmpiLpXkC/516b_2.csv&quot;</span></span>
 <span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; Removing the following columns because they are not numeric</span></span>
 <span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; [1] &quot;First data points ... &quot;</span></span>
 <span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;              datetime Motion.Index Steps</span></span>
@@ -461,12 +461,14 @@ required to compute the DFC).</p>
 TRUE, it will output details about why or why not the data is not
 considered digiRhythm friendly.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">is_dgm_friendly</span>(data, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; v Correct time format: First column has a POSIXct Format </span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; v Number of days: Bigger or equal to 2 </span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; v Correct numeric format - Column 2 ==&gt; Motion.Index </span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; v Correct numeric format - Column 3 ==&gt; Steps </span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; The data is digiRhythm friendly</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; v Correct time format: First column</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;                         has a POSIXct Format </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; v Number of days: Bigger or equal</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;                         than 2 </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; v Correct numeric format - Column 2 ==&gt; Motion.Index </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; v Correct numeric format - Column 3 ==&gt; Steps </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; The data is digiRhythm friendly</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div id="removing-outliers" class="section level1">
 <h1>Removing outliers</h1>
