@@ -1,7 +1,7 @@
 Package: digiRhythm
 Type: Package
 Title: Analyzing Animal's Rhythmicity
-Version: 2.2
+Version: 2.3
 Authors@R: c(person("Hassan-Roland", "Nasser", role = c("aut", "cre"),
                      email = "hassan.nasser@me.com"),
               person("Marie", "Schneider", role = c("aut", "ctb"),
@@ -30,6 +30,6 @@ Suggests: knitr, rmarkdown, testthat (>= 3.0.0), usethis
 VignetteBuilder: knitr
 URL: https://nasserdr.github.io/digiRhythm/
 NeedsCompilation: no
-Packaged: 2024-07-31 07:03:16 UTC; f80859433
+Packaged: 2024-11-07 15:07:00 UTC; f80859433
 Repository: CRAN
-Date/Publication: 2024-07-31 09:30:02 UTC
+Date/Publication: 2024-11-07 15:20:02 UTC
